@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ajak Mabar 🔥</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at center, #1e3a8a, #0f172a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 40px 25px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            animation: floating 4s ease-in-out infinite;
+            position: relative;
+        }
+
+        h2 { 
+            font-weight: 800; font-size: 1.8rem; margin: 0 0 10px 0;
+            background: linear-gradient(to right, #00ff87, #60efff);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+
+        p { font-size: 15px; opacity: 0.8; margin-bottom: 30px; }
+
+        .btn-wrapper {
+            position: relative;
+            height: 160px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .yes {
+            width: 100%; padding: 16px; border: none; border-radius: 20px;
+            font-size: 16px; font-weight: 700;
+            background: linear-gradient(45deg, #00ff87, #60efff);
+            color: #0f172a; cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 255, 135, 0.3);
+            z-index: 100; transition: 0.2s;
+        }
+
+        .yes:active { transform: scale(0.95); }
+
+        .no {
+            width: 140px; padding: 12px; border: none; border-radius: 15px;
+            font-size: 14px; background: rgba(255, 77, 77, 0.2);
+            color: #ff4d4d; border: 1px solid #ff4d4d;
+            cursor: pointer; position: absolute; top: 80px;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 50; font-weight: 600;
+        }
+
+        #funText {
+            margin-top: 20px; font-size: 13px; font-weight: 500;
+            color: #fbbf24; height: 20px; text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+<div class="card" id="mainCard">
+    <h2>MABAR YUK! 🎮</h2>
+    <p>Gak ada alasan lagi, klik tombol bawah buat langsung login!</p>
+
+    <div class="btn-wrapper" id="area">
+        <button class="yes" onclick="accept()">GAS MABAR SEKARANG 🔥</button>
+        <button class="no" id="noBtn">Nggak ah 😒</button>
+    </div>
+
+    <div id="funText"></div>
+</div>
+
+<script>
+    const noBtn = document.getElementById("noBtn");
+    const funText = document.getElementById("funText");
+    const area = document.getElementById("area");
+
+    // --- KONFIGURASI LINK GAME ---
+    // Pilih salah satu atau ganti sesuai kebutuhan:
+    const gameLink = "mobilelegends://"; // Untuk Mobile Legends
+    // const gameLink = "fb154014221312389://"; // Untuk Free Fire
+    // const gameLink = "pubgm://"; // Untuk PUBG Mobile
+    // const gameLink = "roblox://"; // Untuk Roblox
+
+    function moveButton(e) {
+        if(e) e.preventDefault();
+        const areaWidth = area.offsetWidth;
+        const areaHeight = area.offsetHeight;
+        const newX = (Math.random() - 0.5) * (areaWidth - 100);
+        const newY = 70 + (Math.random() * (areaHeight - 110));
+
+        noBtn.style.transform = `translate(${newX}px, ${newY}px)`;
+        
+        const texts = ["Eits! 😜", "Gak kena! 😂", "Lincah banget! 🏃‍♂️", "Coba lagi! 😏", "Anti-klik! 🛡️"];
+        funText.innerText = texts[Math.floor(Math.random() * texts.length)];
+    }
+
+    noBtn.addEventListener("touchstart", moveButton);
+    noBtn.addEventListener("mouseover", moveButton);
+
+    function accept() {
+        const card = document.getElementById("mainCard");
+        card.innerHTML = `
+            <div style="font-size:60px; margin-bottom:20px;">🚀</div>
+            <h2>OTW LOGIN!</h2>
+            <p>Membuka game... Kalau gak kebuka secara otomatis, berarti gamenya belum keinstall ya!</p>
+        `;
+
+        // Menjalankan perintah buka game
+        setTimeout(() => {
+            window.location.href = gameLink;
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
