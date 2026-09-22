@@ -1,114 +1,721 @@
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mabar Kuy</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<title>Mission Kelulusan</title>
+
 <style>
-body {
+* {
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #0f172a;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    background:
+        radial-gradient(circle at 50% 30%, #572000 0%, transparent 35%),
+        linear-gradient(135deg, #050505, #160907, #050505);
     color: white;
+}
+
+/* =========================
+   LOADING SCREEN
+========================= */
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #050505;
+
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
-    text-align: center;
+    justify-content: center;
+    flex-direction: column;
+
+    transition: 1s;
 }
 
-.loader {
-    animation: fadeIn 1s ease;
+.loading-screen.hide {
+    opacity: 0;
+    pointer-events: none;
 }
 
-@keyframes fadeIn {
-    from {opacity: 0;} to {opacity: 1;}
+.loading-title {
+    font-size: clamp(35px, 8vw, 70px);
+    font-weight: 1000;
+    font-style: italic;
+
+    color: #ff5100;
+
+    text-shadow:
+        0 0 15px rgba(255, 70, 0, .6),
+        4px 4px 0 #651600;
 }
 
-.spinner {
-    border: 5px solid rgba(255,255,255,0.2);
-    border-top: 5px solid #38bdf8;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
-    margin: 20px auto;
+.loading-sub {
+    margin-top: 10px;
+    color: #777;
+    letter-spacing: 3px;
+    font-size: 11px;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg);} 
-    100% { transform: rotate(360deg);} 
+.loading-bar {
+    width: min(400px, 80%);
+    height: 5px;
+
+    margin-top: 30px;
+
+    background: #222;
+    overflow: hidden;
+}
+
+.loading-progress {
+    width: 0;
+    height: 100%;
+
+    background: linear-gradient(
+        90deg,
+        #ff3300,
+        #ff9d00
+    );
+
+    box-shadow: 0 0 15px #ff4500;
+
+    animation: loading 2.5s forwards;
+}
+
+@keyframes loading {
+    to {
+        width: 100%;
+    }
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main {
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
 }
 
 .card {
-    display: none;
-    background: rgba(255,255,255,0.05);
-    padding: 25px;
-    border-radius: 20px;
-    max-width: 320px;
-}
-
-button {
-    padding: 12px;
     width: 100%;
-    border: none;
-    border-radius: 12px;
-    margin-top: 10px;
-    font-size: 14px;
-    cursor: pointer;
+    max-width: 850px;
+
+    padding: 35px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(30, 15, 10, .96),
+            rgba(7, 7, 7, .98)
+        );
+
+    border: 1px solid rgba(255, 75, 0, .5);
+
+    clip-path: polygon(
+        0 20px,
+        20px 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% calc(100% - 20px),
+        calc(100% - 20px) 100%,
+        20px 100%,
+        0 calc(100% - 20px)
+    );
+
+    box-shadow:
+        0 0 50px rgba(255, 60, 0, .12),
+        inset 0 0 60px rgba(255, 50, 0, .04);
 }
 
-.install {
-    background: linear-gradient(45deg, #22c55e, #4ade80);
-    color: black;
+/* =========================
+   HUD
+========================= */
+
+.hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 45px;
+}
+
+.player {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #111;
+    border: 2px solid #ff5700;
+
+    font-size: 23px;
+
+    box-shadow: 0 0 18px rgba(255, 70, 0, .4);
+}
+
+.player small {
+    color: #777;
+    font-size: 9px;
+    letter-spacing: 2px;
+}
+
+.player strong {
+    display: block;
+    margin-top: 3px;
+}
+
+.rank {
+    padding: 9px 13px;
+
+    color: #ff6b00;
+    border: 1px solid rgba(255, 90, 0, .5);
+
+    background: rgba(255, 70, 0, .08);
+
+    font-size: 10px;
     font-weight: bold;
 }
 
-.fun {
-    font-size: 13px;
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+    text-align: center;
+}
+
+.mission {
+    display: inline-block;
+
+    padding: 7px 15px;
+
+    background: #ff5100;
+    color: #080808;
+
+    font-size: 10px;
+    font-weight: 1000;
+    letter-spacing: 2px;
+
+    transform: skew(-12deg);
+
+    box-shadow: 0 0 20px rgba(255, 70, 0, .35);
+}
+
+h1 {
+    margin-top: 18px;
+
+    font-size: clamp(42px, 9vw, 78px);
+    line-height: .9;
+
+    font-weight: 1000;
+    font-style: italic;
+
+    text-transform: uppercase;
+
+    text-shadow:
+        4px 4px 0 #701b00,
+        0 0 30px rgba(255, 70, 0, .25);
+}
+
+h1 span {
+    color: #ff5700;
+}
+
+.description {
+    max-width: 550px;
+
+    margin: 22px auto 30px;
+
+    color: #999;
+    line-height: 1.7;
+    font-size: 14px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.start-btn {
+    border: none;
+    cursor: pointer;
+
+    padding: 17px 45px;
+
+    color: white;
+
+    font-weight: 1000;
+    letter-spacing: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff3200,
+            #ff7200
+        );
+
+    clip-path: polygon(
+        10px 0,
+        100% 0,
+        calc(100% - 10px) 100%,
+        0 100%
+    );
+
+    box-shadow:
+        0 0 20px rgba(255, 60, 0, .35);
+
+    transition: .2s;
+}
+
+.start-btn:hover {
+    transform: translateY(-4px) scale(1.03);
+
+    box-shadow:
+        0 0 35px rgba(255, 70, 0, .65);
+}
+
+.start-btn:active {
+    transform: scale(.95);
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message {
+    display: none;
+
+    margin-top: 30px;
+
+    animation: messageIn .8s ease forwards;
+}
+
+.message.active {
+    display: block;
+}
+
+@keyframes messageIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.message-box {
+    position: relative;
+
+    padding: 28px 20px;
+
+    border: 1px solid #ff5700;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 70, 0, .13),
+            rgba(10, 10, 10, .9)
+        );
+
+    box-shadow:
+        0 0 30px rgba(255, 60, 0, .15),
+        inset 0 0 30px rgba(255, 50, 0, .04);
+}
+
+.complete {
+    position: absolute;
+    top: -12px;
+    left: 20px;
+
+    padding: 5px 12px;
+
+    background: #ff5700;
+    color: #111;
+
+    font-size: 9px;
+    font-weight: 1000;
+}
+
+.trophy {
+    font-size: 50px;
+
+    animation:
+        trophy .8s ease infinite alternate;
+}
+
+@keyframes trophy {
+    to {
+        transform: translateY(-7px) rotate(3deg);
+    }
+}
+
+.message h2 {
     margin-top: 10px;
-    opacity: 0.8;
+
+    font-size: clamp(27px, 6vw, 46px);
+
+    color: white;
+
+    text-shadow:
+        0 0 20px rgba(255, 70, 0, .5);
+}
+
+.message h2 span {
+    color: #ff5b00;
+}
+
+.message p {
+    margin-top: 10px;
+
+    color: #aaa;
+    font-size: 13px;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+
+    margin-top: 35px;
+
+    color: #666;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.stats b {
+    color: #ff6500;
+}
+
+/* =========================
+   CONFETTI
+========================= */
+
+.confetti {
+    position: fixed;
+    top: -20px;
+
+    width: 8px;
+    height: 14px;
+
+    pointer-events: none;
+
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform:
+            translateY(110vh)
+            rotate(720deg);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .main {
+        padding: 12px;
+    }
+
+    .card {
+        padding: 25px 18px;
+    }
+
+    .hud {
+        margin-bottom: 35px;
+    }
+
+    .rank {
+        font-size: 8px;
+        padding: 7px;
+    }
+
+    .avatar {
+        width: 42px;
+        height: 42px;
+    }
+
+    .description {
+        font-size: 13px;
+    }
+
+    .start-btn {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .stats {
+        gap: 15px;
+        flex-wrap: wrap;
+    }
 }
 </style>
 </head>
+
+
 <body>
 
-<div class="loader" id="loader">
-    <h2>🎮 Anjayy Login ...</h2>
-    <div class="spinner"></div>
-    <p>Masuk ke game... sabar dikit 😎</p>
+<!-- LOADING -->
+<div class="loading-screen" id="loading">
+
+    <div class="loading-title">
+        BATTLE SYSTEM
+    </div>
+
+    <div class="loading-sub">
+        PREPARING MISSION...
+    </div>
+
+    <div class="loading-bar">
+        <div class="loading-progress"></div>
+    </div>
+
 </div>
 
-<div class="card" id="fallback">
-    <h2>😅 Waduh...</h2>
-    <p>Game kamu kayaknya belum ada ye 😭</p>
-    <button class="install" onclick="installGame()">Install Game 🔥</button>
-    <div class="fun">Biar bisa mabar bareng 😆</div>
-</div>
+
+<!-- MAIN -->
+<main class="main">
+
+    <div class="card">
+
+        <!-- HUD -->
+        <div class="hud">
+
+            <div class="player">
+
+                <div class="avatar">
+                    🎮
+                </div>
+
+                <div>
+                    <small>PLAYER</small>
+                    <strong>MURID KU</strong>
+                </div>
+
+            </div>
+
+            <div class="rank">
+                🏆 RANK: SURVIVOR
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+        <div class="content">
+
+            <div class="mission">
+                ⚡ SPECIAL MISSION
+            </div>
+
+            <h1>
+                READY
+                <span>PLAYER?</span>
+            </h1>
+
+            <p class="description">
+                Selesaikan misi terakhir.
+                Tekan tombol untuk membuka
+                pesan rahasia dari guru.
+            </p>
+
+
+            <button
+                class="start-btn"
+                onclick="completeMission()"
+                id="startButton"
+            >
+                🔥 TEKAN CUY
+            </button>
+
+
+            <!-- MESSAGE -->
+            <div
+                class="message"
+                id="message"
+            >
+
+                <div class="message-box">
+
+                    <div class="complete">
+                        ✓ MISSION COMPLETE
+                    </div>
+
+                    <div class="trophy">
+                        🏆
+                    </div>
+
+                    <h2>
+                        <span>SEMOGA LULUS</span>
+                        MURID KU
+                    </h2>
+
+                    <p>
+                        Perjuangan sudah selesai.
+                        Sekarang waktunya menuju victory!
+                        GG WP! 🔥🎓
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- STATS -->
+        <div class="stats">
+
+            <div>
+                MISSION <b>01</b>
+            </div>
+
+            <div>
+                STATUS <b>READY</b>
+            </div>
+
+            <div>
+                XP <b>9999+</b>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
 
 <script>
-function openGame() {
-    // coba buka game (contoh Mobile Legends scheme)
-    window.location.href = "intent://#Intent;scheme=mobilelegends;package=com.mobile.legends;end";
-}
 
-function installGame() {
-    window.location.href = "https://play.google.com/store/apps/details?id=com.mobile.legends";
-}
+/* =========================
+   LOADING
+========================= */
 
-// mulai loading
-setTimeout(() => {
-    openGame();
+window.addEventListener("load", () => {
 
-    // fallback kalau gak kebuka
     setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-        document.getElementById("fallback").style.display = "block";
-    }, 2000);
 
-}, 2000);
+        document
+            .getElementById("loading")
+            .classList.add("hide");
+
+    }, 2700);
+
+});
+
+
+/* =========================
+   COMPLETE MISSION
+========================= */
+
+function completeMission() {
+
+    const message =
+        document.getElementById("message");
+
+    const button =
+        document.getElementById("startButton");
+
+    message.classList.add("active");
+
+    button.innerHTML =
+        "✅ MISSION COMPLETE";
+
+    button.style.background =
+        "linear-gradient(90deg, #00a83b, #00e65a)";
+
+    createConfetti();
+
+}
+
+
+/* =========================
+   CONFETTI
+========================= */
+
+function createConfetti() {
+
+    const symbols = [
+        "🔥",
+        "🎓",
+        "⭐",
+        "🏆",
+        "✨"
+    ];
+
+    for (let i = 0; i < 70; i++) {
+
+        const confetti =
+            document.createElement("div");
+
+        confetti.className =
+            "confetti";
+
+        confetti.innerHTML =
+            symbols[
+                Math.floor(
+                    Math.random() *
+                    symbols.length
+                )
+            ];
+
+        confetti.style.left =
+            Math.random() * 100 + "vw";
+
+        confetti.style.fontSize =
+            (10 + Math.random() * 18) + "px";
+
+        confetti.style.animationDuration =
+            (2 + Math.random() * 3) + "s";
+
+        confetti.style.animationDelay =
+            Math.random() * .8 + "s";
+
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 5500);
+
+    }
+
+}
+
 </script>
 
 </body>
 </html>
+```
